@@ -1,0 +1,84 @@
+//ARUL MITTAL 1262251948 
+
+#include <stdio.h>
+
+#define SIZE 5
+
+struct employee {
+    int job_id;
+    char title[20];
+};
+
+int isEmpty();
+int isFull();
+void addQ(struct employee employees[SIZE], struct employee e);
+struct employee deleteQ(struct employee employees[SIZE]);
+
+int front = 0;
+int rear = 0;
+
+int main() {
+    struct employee employees[SIZE];
+    int choice;
+    struct employee element;
+    struct employee deleted;
+
+    do {
+        printf("Enter operation\n1. Add\n2. Delete\n3. Exit\n");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                printf("Enter job ID: ");
+                scanf("%d", &element.job_id);
+                printf("Enter job title: ");
+                scanf("%s", element.title);
+                addQ(employees, element);
+                break;
+                
+            case 2:
+                if (isEmpty()) {
+                    printf("Queue is empty.\n");
+                } else {
+                    deleted = deleteQ(employees);
+                    printf("Deleted employee:\nID: %d\nTitle: %s\n", deleted.job_id, deleted.title);
+                }
+                break;
+                
+            case 3:
+                break;
+                
+            default:
+                printf("Incorrect choice.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
+
+int isEmpty() {
+    return (front == rear);
+}
+
+int isFull() {
+    return ((rear + 1) % SIZE == front);
+}
+
+void addQ(struct employee employees[SIZE], struct employee e) {
+    if (isFull()) {
+        printf("Queue is full.\n");
+    } else {
+        rear = (rear + 1) % SIZE;
+        employees[rear] = e;
+        printf("Employee added successfully.\n");
+    }
+}
+
+struct employee deleteQ(struct employee employees[SIZE]) {
+    struct employee e = {0, ""};
+    if (!isEmpty()) {
+        front = (front + 1) % SIZE;
+        e = employees[front];
+    }
+    return e;
+}

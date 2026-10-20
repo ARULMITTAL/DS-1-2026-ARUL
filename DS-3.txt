@@ -1,0 +1,234 @@
+//ARUL MITTAL 1262251948 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct hospital
+{
+    char patname[20];
+    int patid;
+    float patbill;
+} hospital;
+
+void accept(hospital patient[], int size)
+{
+    int i;
+
+    for(i = 0; i < size; i++)
+    {
+        printf("\nPatient %d\n", i + 1);
+        printf("Patient name: ");
+        scanf("%s",patient[i].patname);
+
+        printf("Patient ID: ");
+        scanf("%d",&patient[i].patid);
+
+        printf("Patient bill: ");
+        scanf("%f",&patient[i].patbill);
+    }
+}
+
+void display(hospital patient[], int size)
+{
+    int i;
+
+    printf(" Patient Details \n");
+    printf("name\tid\tbill\n");
+    for(i = 0; i < size; i++)
+    {
+       
+        printf("%s\t%d\t%.2f\n",patient[i].patname,patient[i].patid,patient[i].patbill);
+       
+    }
+}
+
+void bubblesort(hospital patient[],int m)
+{
+int i,j;
+struct hospital temp;
+for(i=0;i<m-1;i++)
+{
+	for(j=0;j<m-1;j++)
+	{
+	if(patient[j].patid>patient[j+1].patid)
+		{
+		temp=patient[j];
+		patient[j]=patient[j+1];
+		patient[j+1]=temp;
+		}
+	}
+}
+}
+
+void insertionsort(hospital patient[], int m)
+{
+    int i, j;
+    struct hospital temp;
+    for(i = 1; i < m; i++)
+    {
+        temp = patient[i];
+        j = i - 1;
+
+        while(j >= 0 && patient[j].patid > temp.patid)
+        {
+            patient[j + 1] = patient[j];
+            j--;
+        }
+        patient[j + 1] = temp;
+    }
+}
+
+void selectionsort(hospital patient[], int m)
+{
+    int i, j, min_idx;
+    struct hospital temp;
+    for(i = 0; i < m - 1; i++)
+    {
+        min_idx = i;
+        for(j = i + 1; j < m; j++)
+        {
+            if(patient[j].patid < patient[min_idx].patid)
+            {
+                min_idx = j;
+            }
+        }
+        if(min_idx != i)
+        {
+            temp = patient[i];
+            patient[i] = patient[min_idx];
+            patient[min_idx] = temp;
+        }
+    }
+}
+
+void shellsort(hospital patient[], int m)
+{
+    int i, j, gap;
+    struct hospital temp;
+    for(gap = m / 2; gap > 0; gap /= 2)
+    {
+        for(i = gap; i < m; i++)
+        {
+            temp = patient[i];
+            for(j = i; j >= gap && patient[j - gap].patid > temp.patid; j -= gap)
+            {
+                patient[j] = patient[j - gap];
+            }
+            patient[j] = temp;
+        }
+    }
+}
+
+int binarySearch(hospital patient[], int m, int key)
+{
+    int low = 0, high = m - 1, mid;
+    while (low <= high)
+    {
+        mid = low + (high - low) / 2;
+        if (patient[mid].patid == key)
+        {
+            printf("%d is found at position %d using Binary Search\n", key, mid + 1);
+            return 1;
+        }
+        if (patient[mid].patid < key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return 0;
+}
+
+int linear(hospital patient[], int m, char searchName[])
+{
+    int i, found = 0;
+    for(i = 0; i < m; i++)
+    {
+        if(strcmp(patient[i].patname, searchName) == 0)
+        {
+            printf("Patient Name %s found at position %d (ID: %d, Bill: %.2f)\n", 
+                   searchName, i + 1, patient[i].patid, patient[i].patbill);
+            found = 1;
+        }
+    }
+    if(found)
+        return 1;
+    return 0;
+}
+
+int main()
+{
+    int m; 
+    int key; 
+    int choice;
+    char searchName[20];
+    struct hospital patient[20];
+
+    printf("Enter number of patients: ");
+    scanf("%d", &m);
+
+    accept(patient, m);
+
+    while(1)
+    {
+        printf("\n--- MENU ---\n");
+        printf("1. Display Patient Details\n");
+        printf("2. Bubble Sort\n");
+        printf("3. Insertion Sort\n");
+        printf("4. Selection Sort\n");
+        printf("5. Shell Sort\n");
+        printf("6. Binary Search (Patient ID)\n");
+        printf("7. Linear Search (Patient Name)\n");
+        printf("8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                display(patient, m);
+                break;
+            case 2:
+                bubblesort(patient, m);
+                printf("\nafter bubble sort: \n");
+                display(patient, m);
+                break;
+            case 3:
+                insertionsort(patient, m);
+                printf("\nafter insertion sort: \n");
+                display(patient, m);
+                break;
+            case 4:
+                selectionsort(patient, m);
+                printf("\nafter selection sort: \n");
+                display(patient, m);
+                break;
+            case 5:
+                shellsort(patient, m);
+                printf("\nafter shell sort: \n");
+                display(patient, m);
+                break;
+            case 6:
+                printf("Enter patient id to be searched (Binary Search): \n");
+                scanf("%d", &key);
+                if(binarySearch(patient, m, key) == 0)
+                {
+                    printf("patient id not found\n");
+                }
+                break;
+            case 7:
+                printf("Enter patient name to be searched (Linear Search): \n");
+                scanf("%s", searchName);
+                if(linear(patient, m, searchName) == 0)
+                {
+                    printf("patient name not found\n");
+                }
+                break;
+            case 8:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+
+    return 0;
+}

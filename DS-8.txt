@@ -1,0 +1,90 @@
+//ARUL MITTAL 1262251948 
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 5
+
+struct candidates
+{
+    int job_id;
+    char title[20];
+};
+
+int front = -1;
+int rear = -1;
+
+int isEmpty(int front, int rear)
+{
+    if(rear == front)
+        return 1;
+    else
+        return 0;
+}
+
+int isfull(int rear)
+{
+    if(rear == SIZE - 1)
+        return 1;
+    else
+        return 0;
+}
+
+void addq(struct candidates QUE[15], struct candidates elem)
+{
+    if(isfull(rear) == 0)
+    {
+        rear = rear + 1;
+        QUE[rear] = elem;
+    }
+    else
+        printf("queue is full\n");
+}
+
+void delq(struct candidates QUE[15])
+{
+    if(isEmpty(front, rear) == 0)
+    {
+        front = front + 1;
+        printf("deleted job id: %d\n", QUE[front].job_id);
+        printf("deleted title: %s\n", QUE[front].title);
+    }
+    else
+        printf("queue is empty\n");
+}
+
+int main()
+{
+    struct candidates QUE[15];
+    struct candidates elem;
+    int choice;
+
+    while(1)
+    {
+        printf("1.add\n");
+        printf("2.del\n");
+        printf("3.exit\n");
+        printf("enter choice: \n");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                printf("enter title: ");
+                scanf("%s", elem.title);
+
+                printf("enter id to be added: ");
+                scanf("%d", &elem.job_id);
+
+                addq(QUE, elem);
+                break;
+
+            case 2:
+                delq(QUE);
+                break;
+
+            case 3:
+                exit(0);
+        }
+    }
+
+    return 0;
+}
