@@ -1,0 +1,119 @@
+//ARUL MITTAL 1262251948 
+
+#include <stdio.h>
+
+void scanm(int mat1[10][10], int r, int c)
+{
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c; j++)
+        {
+            scanf("%d", &mat1[i][j]);
+        }
+    }
+}
+
+void dispm(int mat1[10][10], int r, int c)
+{
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c; j++)
+        {
+            printf("%d ", mat1[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void addm(int mat1[10][10], int mat2[10][10],int sum[10][10],int r, int c)
+{
+    for(int i=0;i<r;i++){
+        for (int j=0;j<c;j++){
+            sum[i][j]=mat1[i][j]+mat2[i][j];
+        }
+    }
+}
+
+void subm(int mat1[10][10], int mat2[10][10],int sub[10][10],int r, int c)
+{
+    for(int i=0;i<r;i++){
+        for (int j=0;j<c;j++){
+            sub[i][j]=mat1[i][j]-mat2[i][j];
+        }
+    }
+}
+
+void trpm(int mat1[10][10],int trp[10][10],int r, int c)
+{
+    for(int i=0;i<r;i++){
+        for(int j = 0;j<r;j++){
+            trp[i][j]=mat1[j][i];
+        }
+    }
+}
+void multm(int mat1[10][10], int mat2[10][10], int mult[10][10], int r1, int c1, int r2, int c2)
+{
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            mult[i][j] = 0;
+           
+            for (int k = 0; k < c1; k++) {
+                mult[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+}
+int main()
+{
+    int mat1[10][10];int mat2[10][10];int sum[10][10];int sub[10][10]; int trp1[10][10];int trp2[10][10];int mult[10][10];
+    int r1;int  c1;int r2;int c2;
+
+    printf("Enter rows and columns of 1st matrix:\n");
+    scanf("%d %d", &r1, &c1);
+    scanm(mat1, r1, c1);
+
+    printf("The 1st matrix is:\n");
+    dispm(mat1, r1, c1);
+    
+     printf("Enter rows and columns of 2nd matrix:\n");
+    scanf("%d %d", &r2, &c2);
+    scanm(mat2, r2, c2);
+
+    printf("The 2nd matrix is:\n");
+    dispm(mat2, r2, c2);
+    
+   // add
+   if(r1==r2 && c1==c2){
+       printf("addition is: \n");
+    addm(mat1,mat2,sum,r1,c1);
+    dispm(sum,r1,c1);
+   }
+   else 
+   printf("Matrix cant be added \n ");
+   
+   // subtract
+   if(r1==r2 && c1==c2){
+       printf("subtraction  is:\n");
+    subm(mat1,mat2,sub,r1,c1);
+    dispm(sub,r1,c1);
+   }
+   else 
+   printf("Matrix cant be subtracted \n");
+// transpose
+printf("1st matrix tranpose:\n ");
+trpm(mat1,trp1,r1,c1);
+dispm(trp1,r1,c1);
+
+printf("2nd matrix tranpose:\n ");
+trpm(mat2,trp2,r2,c2);
+dispm(trp2,r2,c2);
+
+// multiplication
+if(c1==r2){
+    printf("product is:\n");
+    multm(mat1,mat1,mult,r1,r2,c1,c2);
+    dispm(mult,r1,c2);}
+    else
+    printf("no product possible");
+}
+ 
